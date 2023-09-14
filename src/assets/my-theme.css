@@ -1,0 +1,31 @@
+:root {
+    --primary-color: #363636;
+    --secondary-color: #5c5c5c;
+    --tertiary-color: #394867;
+    --quaternary-color: #9BA4B4;
+  }
+  
+  .primary-color {
+    background-color: var(--primary-color) !important;
+  }
+  
+  .secondary-color {
+    background-color: var(--secondary-color) !important;
+  }
+  
+  .tertiary-color {
+    background-color: var(--tertiary-color)!important;
+  }
+  
+  .quaternary-color {
+    background-color: var(--quaternary-color) !important;;
+  }
+
+  .text-light {
+    color: #fff !important;
+  }
+
+.box_item_ads_popup{
+  display: none !important;
+}
+  
