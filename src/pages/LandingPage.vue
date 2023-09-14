@@ -29,7 +29,7 @@
               <h1 class="font-weigh-bold">Ongoing Anime</h1>
               <SkeletonCard v-if="isLoading"/>
               <v-row v-else>
-                <v-col v-for="item in homes.ongoing_anime" :key="item.title"
+                <v-col v-for="item in dataAnime" :key="item.title"
                 class="mt-2" cols="12" sm="6" md="4" lg="3" xl="2">
                     <MovieItemComponent :movie="item"/>
                 </v-col>       
@@ -42,7 +42,7 @@
               <h1 class="font-weigh-bold">Completed Anime</h1>
               <SkeletonCard v-if="isLoading"/>
               <v-row v-else>
-                <v-col v-for="item in homes.completed_anime" :key="item.title"
+                <v-col v-for="item in dataAnime" :key="item.title"
                 class="mt-2" cols="12" sm="6" md="4" lg="3" xl="2">
                     <CompleteMovieItemComponent :movie="item"/>
                 </v-col>  
@@ -51,11 +51,27 @@
           </v-window-item>
 
             <v-window-item v-for="genre in genres" :value="genre.slug" :key="genre.slug">
-              {{genre.name}}
+              <v-container>
+                <h1 class="font-weigh-bold">{{tab}}</h1>
+                <SkeletonCard v-if="isLoading"/>
+                <v-row v-else>
+                  <v-col v-for="item in dataAnime" :key="item.title"
+                  class="mt-2" cols="12" sm="6" lg="3" xl="2">
+                      <CategoryMovieItemComponent :movie="item"/>
+                  </v-col>  
+                </v-row>
+              </v-container>
             </v-window-item>
         </v-window>
       </v-card-text>
     </v-card>
+    <div class="text-center">
+      <v-pagination
+        v-model="page"
+        :length="pagination.last_visible_page ?? 1"
+        :total-visible="4"
+      ></v-pagination>
+    </div>
   </LayoutComponent>
 </template>
 
@@ -64,6 +80,7 @@ import { ref, onMounted, watch } from 'vue';
 import LayoutComponent from '@/components/layouts/LayoutComponent.vue';
 import MovieItemComponent from '@/components/MovieItemComponent.vue';
 import CompleteMovieItemComponent from '@/components/CompleteMovieItemComponent.vue';
+import CategoryMovieItemComponent from '@/components/CategoryMovieItemComponent.vue';
 import SkeletonCard from '@/components/loading/SkeletonCard.vue';
 import api from '@/api/api.js';
 import endpoint from '@/api/api-endpoint.js';
@@ -71,11 +88,13 @@ import { useSearchStore } from '@/store/searchResult';
 import { useGenresStore } from '@/store/genresResult';
 import { storeToRefs } from 'pinia';
 
-const homes = ref({ ongoing_anime: [], completed_anime: [] });
+const dataAnime = ref([]);
 const genres = ref([]);
 const isLoading = ref(true);
 
-const tab = ref(null);
+const tab = ref('on-going');
+const page = ref(1);
+const pagination = ref({});
 const searchResult = ref([]);
 
 const searchStore = useSearchStore();
@@ -87,7 +106,7 @@ const {getGenres} = storeToRefs(genresStore);
 
 onMounted(async () => {
   try {
-    console.log(getGenres.value.length);
+
     if(getGenres.value.length < 1){
       const responseGenres = await api.get(endpoint.getGenres());
       genres.value = responseGenres.data.data;
@@ -97,11 +116,9 @@ onMounted(async () => {
       console.log("else");
       genres.value = getGenres.value;
     }
-    const response = await api.get(endpoint.getHome());
-    homes.value.ongoing_anime = response.data.data.ongoing_anime;
-    homes.value.completed_anime = response.data.data.complete_anime;
+    getData(page.value);
+    // homes.value.completed_anime = response.data.data.complete_anime;
 
-    isLoading.value = false;
 
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -113,4 +130,34 @@ watch(getSearch, (value) => {
       searchResult.value = value;
     }
 })
+
+watch(page, (value) => {
+    isLoading.value  = true;
+    getData(value);
+})
+watch(tab, () => {
+    isLoading.value  = true;
+    getData(1);
+})
+
+
+const getData = async (page) => {
+  let response;
+  if(tab.value == "on-going"){
+       response = await api.get(endpoint.getOngoing()+'/'+page);
+  }else if (tab.value == "complete"){
+       response = await api.get(endpoint.getComplete()+'/'+page);
+  }else{
+      response = await api.get('genres'+'/'+tab.value+'/'+page);
+    }
+
+    if(tab.value != "on-going" && tab.value != "complete"){
+      dataAnime.value = response.data.data.anime;
+      pagination.value = response.data.data.pagination;
+    }else{
+      dataAnime.value = response.data.data;
+      pagination.value = response.data.pagination;
+    }
+    isLoading.value =false;
+}
 </script>

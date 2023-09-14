@@ -14,6 +14,12 @@ const endpoints = {
     getSearch: () => {
         return'search';
     },
+    getOngoing: () => {
+        return'ongoing-anime';
+    },
+    getComplete: () => {
+        return'complete-anime';
+    },
     // Tambahkan endpoint lainnya di sini
   };
   
