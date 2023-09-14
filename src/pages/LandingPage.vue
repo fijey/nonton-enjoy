@@ -1,7 +1,9 @@
 <template>
   <LayoutComponent>
     <v-container v-if="searchResult.length > 0">
+      <v-btn @click="resetSearch()">Bersihkan Hasil Pencarian</v-btn>
       <h1 class="font-weigh-bold">Hasil Pencarian</h1>
+
       <SkeletonCard v-if="isLoading"/>
       <v-row v-else>
         <v-col v-for="item in searchResult" :key="item.title"
@@ -107,6 +109,10 @@ const {getGenres} = storeToRefs(genresStore);
 onMounted(async () => {
   try {
 
+    if(getSearch.value.length > 0){
+      searchResult.value = getSearch.value;
+    }
+
     if(getGenres.value.length < 1){
       const responseGenres = await api.get(endpoint.getGenres());
       genres.value = responseGenres.data.data;
@@ -140,6 +146,11 @@ watch(tab, () => {
     getData(1);
 })
 
+const resetSearch = () => {
+  console.log("BUTTON DI KLIK");
+  searchResult.value = [];
+  useSearchStore().setEmpty();
+}
 
 const getData = async (page) => {
   let response;

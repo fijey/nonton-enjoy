@@ -1,34 +1,113 @@
 <template>
     <LayoutComponent>
-        <v-container>
+      <v-container v-if="isLoading">
             <v-row>
-            <v-col cols="12" md="6">
-                <v-img :src="movieData.poster" alt="Movie Poster" max-width="400"></v-img>
-            </v-col>
-            <v-col cols="12" md="6">
-                <h2 class="headline">{{ movieData.title }}</h2>
-                <p>{{ movieData.japanese_title }}</p>
-                <p><strong>Rating:</strong> {{ movieData.rating }}</p>
-                <p><strong>Produser:</strong> {{ movieData.produser }}</p>
-                <p><strong>Type:</strong> {{ movieData.type }}</p>
-                <p><strong>Status:</strong> {{ movieData.status }}</p>
-                <p><strong>Episode Count:</strong> {{ movieData.episode_count }}</p>
-                <p><strong>Duration:</strong> {{ movieData.duration }}</p>
-                <p><strong>Release Date:</strong> {{ movieData.release_date }}</p>
-                <p><strong>Studio:</strong> {{ movieData.studio }}</p>
-                <p><strong>Genres:</strong>
-                <span v-for="genre in movieData.genres" :key="genre.name">
-                    <a :href="genre.slug">{{ genre.name }}</a>
-                    <span v-if="genre !== movieData.genres[movieData.genres.length - 1]">, </span>
-                </span>
-                </p>
-                <p><strong>Synopsis:</strong> {{ movieData.synopsis }}</p>
-                <!-- <p><strong>Batch Uploaded:</strong> {{ movieData.batch.uploaded_at }}</p> -->
-            </v-col>
+              <v-col cols="12" md="6">
+                <v-skeleton-loader :elevation="9" class="secondary-color" style="height:100%" type="card"></v-skeleton-loader>
+              </v-col>
+
+              <v-col cols="12" md="6" style="line-height: 2rem;">
+                <v-skeleton-loader class="secondary-color" type="paragraph"></v-skeleton-loader> <br>
+                <v-skeleton-loader class="secondary-color" type="paragraph"></v-skeleton-loader> <br>
+                <v-skeleton-loader class="secondary-color" type="paragraph"></v-skeleton-loader> <br>
+              </v-col>
             </v-row>
             <v-row>
-                <h3 class="headline">Straming Disini</h3>
+              <v-col>
+                <div>
+                    <v-card :elevation="20" style="padding:20px" class="secondary-color text-light">
+                      <p><strong>Synopsis:</strong> {{ movieData.synopsis }}</p>
+                    </v-card>
+                </div>
+              </v-col>
+            </v-row>
+            <div>
+              <v-skeleton-loader v-if="isLoading" :elevation="9" class="secondary-color" style="height:100%" type="card"></v-skeleton-loader>
+              <v-row v-else>
+                  <h3 class="headline">Straming Disini</h3> <br>
+                  <v-col cols="12" sm="12" md="12" lg="12">
+                    <v-combobox
+                    v-model="selectEpisode"
+                    clearable
+                    label="Mau Nonton Episode Berapa ? "
+                    :items= episode_lists
+                    variant="solo-filled"
+                  ></v-combobox>
+                  </v-col>
+                  <v-col cols="12" sm="12" md="12" lg="12">
+                    <h5>
+                      {{ selectEpisode }}
+                    </h5> 
+                      <iframe :src="moviePlay.stream_url" width="100%" height="500px" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
+  <!--                     
+                      <iframe allow="fullscreen 'self'" :src="moviePlay.stream_url" frameborder="0" style="width:100%; height:500px;">
+  
+                      </iframe> -->
+                  </v-col>
+              </v-row>
+            </div>
+            <div style="margin-top:20px;margin-bottom:20px"></div>
+            <h3 class="headline">Recommendations</h3>
+            <v-row>
+            <v-col v-for="recommendation in movieData.recommendations" :key="recommendation.title" cols="12" sm="6" md="3">
+              <MovieItemComponent :movie="recommendation" @click="changeSlug(recommendation.slug)" />
+            </v-col>
+            </v-row>
+      </v-container>
+      <v-container v-else>
+            <v-row>
+              <v-col cols="12" md="6">
+                <v-card style="background-color: rgba(240, 248, 255, 0);">
+                <div class="text-center d-flex justify-center">
+                  <v-img :src="movieData.poster" alt="Movie Poster" style="height: 60vh !important;"></v-img>
+                </div>
+              </v-card>
+              </v-col>
+
+              <v-col cols="12" md="6" style="line-height: 2rem;">
+                  <h1 class="headline">{{ movieData.title }}</h1>
+                  <p>{{ movieData.japanese_title }}</p>
+                  <p><strong>Rating:</strong> {{ movieData.rating }}</p>
+                  <p><strong>Produser:</strong> {{ movieData.produser }}</p>
+                  <p><strong>Type:</strong> {{ movieData.type }}</p>
+                  <p><strong>Status:</strong> {{ movieData.status }}</p>
+                  <p><strong>Episode Count:</strong> {{ movieData.episode_count }}</p>
+                  <p><strong>Duration:</strong> {{ movieData.duration }}</p>
+                  <p><strong>Release Date:</strong> {{ movieData.release_date }}</p>
+                  <p><strong>Studio:</strong> {{ movieData.studio }}</p>
+                  <p><strong>Genres:</strong> <br>
+                    <v-chip v-for="genre in movieData.genres" :key="genre.slug" variant="elevated"
+                        size="x-small" max-lines="1">
+                          {{ genre.name }}
+                    </v-chip>
+                  </p>
+                  <!-- <p><strong>Batch Uploaded:</strong> {{ movieData.batch.uploaded_at }}</p> -->
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <div>
+                    <v-card :elevation="20" style="padding:20px" class="secondary-color text-light">
+                      <p><strong>Synopsis:</strong> {{ movieData.synopsis }}</p>
+                    </v-card>
+                </div>
+              </v-col>
+            </v-row>
+            <v-row>
+                <h3 class="headline">Straming Disini</h3> <br>
                 <v-col cols="12" sm="12" md="12" lg="12">
+                  <v-combobox
+                  v-model="selectEpisode"
+                  clearable
+                  label="Mau Nonton Episode Berapa ? "
+                  :items= episode_lists
+                  variant="solo-filled"
+                ></v-combobox>
+                </v-col>
+                <v-col cols="12" sm="12" md="12" lg="12">
+                  <h5>
+                    {{ selectEpisode }}
+                  </h5> 
                     <iframe :src="moviePlay.stream_url" width="100%" height="500px" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
 <!--                     
                     <iframe allow="fullscreen 'self'" :src="moviePlay.stream_url" frameborder="0" style="width:100%; height:500px;">
@@ -36,59 +115,74 @@
                     </iframe> -->
                 </v-col>
             </v-row>
-            <h3 class="headline">Episode Lists</h3>
-            <v-list>
-            <v-list-item v-for="episode in movieData.episode_lists" :key="episode.episode">
-                <v-list-item-content>
-                <a @click="changeEpisode(episode.slug)">{{ episode.episode }}</a>
-                </v-list-item-content>
-            </v-list-item>
-            </v-list>
+            <div style="margin-top:20px;margin-bottom:20px"></div>
             <h3 class="headline">Recommendations</h3>
             <v-row>
-            <v-col v-for="recommendation in movieData.recommendations" :key="recommendation.title" cols="12" md="4">
-                <v-card>
-                <v-img :src="recommendation.poster" alt="Recommendation Poster" height="200"></v-img>
-                <v-card-title>{{ recommendation.title }}</v-card-title>
-                <v-card-actions>
-                    <v-btn :href="recommendation.slug" color="primary" text>More Info</v-btn>
-                </v-card-actions>
-                </v-card>
+            <v-col v-for="recommendation in movieData.recommendations" :key="recommendation.title" cols="12" sm="6" md="3">
+              <MovieItemComponent :movie="recommendation" @click="changeSlug(recommendation.slug)" />
             </v-col>
             </v-row>
-        </v-container>
+      </v-container>
     </LayoutComponent>
   </template>
   
   <script setup>
-  import { ref, onMounted } from 'vue';
+  import { ref, onMounted,watch } from 'vue';
   import LayoutComponent from '@/components/layouts/LayoutComponent.vue';
+  import MovieItemComponent from '@/components/MovieItemComponent.vue';
   import api from '@/api/api.js';
   import endpoint from '@/api/api-endpoint.js';
   import { useRoute } from 'vue-router';
   
+  const selectEpisode = ref('');
   const movieData = ref([]);
   const moviePlay = ref([]);
   const streamingMode = ref(true);
   const isLoading = ref(true);
+  const episode_lists = ref([]);
   
   const route = useRoute();
   const movieSlug = ref(route.params.slug);
   
   onMounted(async () => {
     try {
-      const response = await api.get(endpoint.getDetail() + '/' + movieSlug.value);
-      isLoading.value = false;
-      movieData.value= response.data.data;
-      console.log(response);
+      await playMovie(movieSlug.value);
+      await changeEpisode(movieData.value.episode_lists[0].slug.split('/')[3]);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   });
 
+  watch(selectEpisode, (value) => {
+    console.log(value);
+    isLoading.value = true;
+    changeEpisode(value);
+})
+  watch(movieSlug, (value) => {
+    console.log(value);
+    playMovie(value);
+})
+
+const changeSlug = (value) => {
+  isLoading.value = true;
+  movieSlug.value = value.split('/')[3];
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+  const playMovie = async (value) => {
+    try {
+      const response = await api.get(endpoint.getDetail() + '/' + value);
+      isLoading.value = false;
+      movieData.value= response.data.data;
+      episode_lists.value = movieData.value.episode_lists.map((episode) => episode.slug.split('/')[3]);
+      
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
   const changeEpisode = async (slug) => {
     try {
-      const responseEpisode = await api.get(endpoint.getEpisodeBySlug() + '/' + slug.split('/')[3]);
+      const responseEpisode = await api.get(endpoint.getEpisodeBySlug() + '/' + slug);
       isLoading.value = false;
       moviePlay.value= responseEpisode.data.data;
       streamingMode.value=true;

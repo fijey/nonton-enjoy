@@ -8,7 +8,7 @@
         <v-card-title>{{ movie.title }}</v-card-title>
         <v-card-subtitle>{{ movie.release_day }}, {{ movie.newest_release_date }}</v-card-subtitle>
         <v-card-text>
-          <div>
+          <div v-if="movie.current_episode">
             <strong>Current Episode:</strong> {{ movie.current_episode }}
           </div>
         </v-card-text>
@@ -16,7 +16,7 @@
         <!-- Movie Actions (e.g., Watch Now button) -->
         <!-- <v-card-actions style="width: 100%;">
         </v-card-actions> -->
-        <router-link :to="{ name: 'movie-detail', params: { slug: movie.slug.split('/')[3] } }">
+        <router-link style="text-decoration: none;" :to="{ name: 'movie-detail', params: { slug: movie.slug.split('/')[3] } }">
             <v-btn class="secondary-color text-light" block>Watch Now</v-btn>
         </router-link>
       </v-card>
