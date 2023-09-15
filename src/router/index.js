@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import LoginPage from "@/pages/LoginPage.vue";
+import SearchPage from "@/pages/SearchPage.vue";
 import RegisterPage from "@/pages/RegisterPage.vue";
 import LandingPage from "@/pages/LandingPage.vue";
 import MovieDetailPage from "@/pages/MovieDetailPage.vue";
@@ -8,7 +8,7 @@ import MovieDetailPage from "@/pages/MovieDetailPage.vue";
 const routes = [
   { path: '/', component: LandingPage,name: 'landingpage' },
   { path: '/detail/:slug', component: MovieDetailPage,name: 'movie-detail' },
-  { path: '/login', component: LoginPage,name: 'login' },
+  { path: '/search', component: SearchPage,name: 'search' },
   { path: '/register', component: RegisterPage,name: 'register' },
   // Tambahkan rute-rute lain di sini
 ];

@@ -32,7 +32,7 @@
           <router-link to="/" class="text-decoration-none">
             <v-list-item class="text-light" prepend-icon="mdi-compass" title="Home" value="Home"></v-list-item>
           </router-link>
-          <router-link to="/" class="text-decoration-none">
+          <router-link to="/search" class="text-decoration-none">
             <v-list-item class="text-light" prepend-icon="mdi-search-web" title="Cari Anime Yang Kamu Mau" value="Cari"></v-list-item>
           </router-link>
           <v-list-group>

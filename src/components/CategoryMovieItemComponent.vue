@@ -8,9 +8,18 @@
     <v-card-subtitle>{{ movie.season }}</v-card-subtitle>
     <v-card-text style="margin-bottom: 1rem;">
       <div>
-        <strong>Total Episode:</strong> {{ movie.episode_count }} <br>
-        <strong>Rating:</strong> {{ movie.rating }}<br>
-        <strong>Studio:</strong> {{ movie.studio }}<br>
+        <div v-if="movie.episode_count">
+          <strong>Total Episode:</strong> {{ movie.episode_count }} <br>
+        </div>
+        <div v-if="movie.rating">
+          <strong>Rating:</strong> {{ movie.rating }}<br>
+        </div>
+        <div v-if="movie.studio">
+          <strong>Studio:</strong> {{ movie.studio }}<br>
+        </div>
+        <div v-if="movie.status">
+          <strong>Status</strong> {{ movie.status }}<br>
+        </div>
       </div>
       <div style="margin-bottom:20px">
         <strong>Genres:</strong> <br>
