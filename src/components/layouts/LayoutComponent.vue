@@ -1,8 +1,14 @@
 <template>
     <v-app id="inspire">
       <v-system-bar class="secondary-color text-light">
-        <v-spacer></v-spacer>
-        <span class="ms-2">3:13PM</span>
+        <v-row>
+          <v-col class="website-title" style="text-align: left;">
+            <span class="ms-2">BAKAnime - Streaming & Download Free Anime Subtitle Indonesia</span>
+          </v-col>
+          <v-col>
+              <span class="ms-2">{{ currentTime }}</span>
+          </v-col>
+        </v-row>
       </v-system-bar>
   
       <v-app-bar app class="primary-color text-light">
@@ -20,13 +26,13 @@
         <v-btn icon="mdi-dots-vertical"></v-btn>
       </v-app-bar>
   
-      <v-navigation-drawer v-model="drawer" temporary>
+      <v-navigation-drawer v-model="drawer" temporary class="secondary-color text-light">
         <v-list nav>
-          <router-link to="/" style="text-decoration: none;">
-            <v-list-item prepend-icon="mdi-compass" title="Discover" value="discover"></v-list-item>
+          <router-link to="/" class="text-decoration-none">
+            <v-list-item class="text-light" prepend-icon="mdi-compass" title="Home" value="Home"></v-list-item>
           </router-link>
-          <router-link to="/playlist">
-            <v-list-item prepend-icon="mdi-playlist-star" title="Playlist" value="playlist"></v-list-item>
+          <router-link to="/" class="text-decoration-none">
+            <v-list-item class="text-light" prepend-icon="mdi-search-web" title="Cari Anime Yang Kamu Mau" value="Cari"></v-list-item>
           </router-link>
         </v-list>
       </v-navigation-drawer>
@@ -63,7 +69,7 @@ Kami dengan bangga menyebut diri kami sebagai "basecamp Anime," sumber utama And
   </template>
   
   <script setup>
-  import { ref, watch } from 'vue';
+  import { ref, watch, onMounted } from 'vue';
   import { debounce } from 'lodash';
   import api from '@/api/api';
   import endpoints from '@/api/api-endpoint';
@@ -74,7 +80,13 @@ Kami dengan bangga menyebut diri kami sebagai "basecamp Anime," sumber utama And
   const search = ref('');
   const searchResult = ref([]);
   const route = useRouter();
+  let currentTime = ref('');
   
+  onMounted(()=> {
+    setInterval(() => {
+      updateJam();
+    }, 1000);
+  })
   // Membuat fungsi debounce dengan waktu penundaan 2 detik (2000 ms)
   const debouncedSearch = debounce(async () => {
     try {
@@ -92,11 +104,23 @@ Kami dengan bangga menyebut diri kami sebagai "basecamp Anime," sumber utama And
   });
   
   function sendSearchValue(value) {
-    useSearchStore().setData(value);
+    if(value.length > 0){
+      useSearchStore().setData(value);
+      route.push('/');
+      console.log(useSearchStore().getSearch);
+    }else{
+      alert("Tidak Ada Hasil Pencarian");
+    }
 
-    route.push('/');
 
-    console.log(useSearchStore().getSearch);
+  }
+
+  const updateJam = () => {
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, '0');
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      const seconds = now.getSeconds().toString().padStart(2, '0');
+      currentTime.value = `${hours}:${minutes}:${seconds}`;
   }
   </script>
 

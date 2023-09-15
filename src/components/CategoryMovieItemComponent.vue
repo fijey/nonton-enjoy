@@ -1,12 +1,12 @@
 <template>
-  <v-card style="height:100%">
+  <v-card style="height:100%" class="border-radius-5">
     <!-- Movie Poster -->
-    <v-img :src="movie.poster" alt="Movie Poster" height="200" cover></v-img>
+    <v-img class="border-radius-5" :src="movie.poster" alt="Movie Poster" height="200" cover></v-img>
 
     <!-- Movie Details -->
     <v-card-title>{{ movie.title }}</v-card-title>
     <v-card-subtitle>{{ movie.season }}</v-card-subtitle>
-    <v-card-text style="margin-bottom: 3rem;">
+    <v-card-text style="margin-bottom: 1rem;">
       <div>
         <strong>Total Episode:</strong> {{ movie.episode_count }} <br>
         <strong>Rating:</strong> {{ movie.rating }}<br>

@@ -1,8 +1,8 @@
 <template>
-      <v-card>
+      <v-card class="border-radius-5">
         <!-- Movie Poster -->
-        <v-img :src="movie.poster" alt="Movie Poster" height="300"
-              cover></v-img>
+        <v-img :src="movie.poster" alt="Movie Poster" height="200"
+              cover class="border-radius-5"></v-img>
   
         <!-- Movie Details -->
         <v-card-title>{{ movie.title }}</v-card-title>
@@ -22,7 +22,7 @@
             </router-link>
 
         </v-card-actions> -->
-        <router-link :to="{ name: 'movie-detail', params: { slug: movie.slug.split('/')[3] } }">
+        <router-link style="text-decoration:none" :to="{ name: 'movie-detail', params: { slug: movie.slug.split('/')[3] } }">
             <v-btn class="secondary-color text-light" block>Watch Now</v-btn>
         </router-link>
       </v-card>

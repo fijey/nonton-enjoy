@@ -28,7 +28,7 @@
         <v-window v-model="tab" class="primary-color text-light">
           <v-window-item value="on-going">
             <v-container>
-              <h1 class="font-weigh-bold">Ongoing Anime</h1>
+              <h1 class="font-weigh-bold" style="margin-bottom: 20px;">Ongoing Anime</h1>
               <SkeletonCard v-if="isLoading"/>
               <v-row v-else>
                 <v-col v-for="item in dataAnime" :key="item.title"

@@ -1,8 +1,8 @@
 <template>
-      <v-card style="height:100%">
+      <v-card style="height:100%" class="border-radius-5">
         <!-- Movie Poster -->
-        <v-img :src="movie.poster" alt="Movie Poster" height="300"
-              cover></v-img>
+        <v-img :src="movie.poster" alt="Movie Poster" height="200"
+              cover class="border-radius-5"></v-img>
   
         <!-- Movie Details -->
         <v-card-title>{{ movie.title }}</v-card-title>

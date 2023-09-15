@@ -28,4 +28,24 @@
 .box_item_ads_popup{
   display: none !important;
 }
+
+.border-radius-1{
+  border-radius: 1% !important;
+}
+.border-radius-2{
+  border-radius: 2% !important;
+}
+.border-radius-3{
+  border-radius: 3% !important;
+}
+.border-radius-4{
+  border-radius: 4% !important;
+}
+.border-radius-5{
+  border-radius: 5% !important;
+}
+
+.text-decoration-none {
+  text-decoration: none !important;
+}
   

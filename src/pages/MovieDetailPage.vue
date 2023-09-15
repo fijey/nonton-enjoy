@@ -47,6 +47,7 @@
               </v-row>
             </div>
             <div style="margin-top:20px;margin-bottom:20px"></div>
+            
             <h3 class="headline">Recommendations</h3>
             <v-row>
             <v-col v-for="recommendation in movieData.recommendations" :key="recommendation.title" cols="12" sm="6" md="3">
@@ -114,6 +115,42 @@
 
                     </iframe> -->
                 </v-col>
+            </v-row>
+            <div style="margin-top:20px;margin-bottom:20px"></div>
+            <v-row>
+              <v-col>
+                <div>
+                  <h1>Mau Didownload juga Boleh</h1>
+                    <v-card  :elevation="20" style="padding:20px" class="secondary-color text-light">
+                      <div  v-for="(format,index) in moviePlay.download_urls" :key="index">
+                        <h3>
+                            {{index}}
+                        </h3>
+                        <v-row  v-for="(resolution,index) in format" :key="index" cols="12" sm="12">
+                            <v-col class="title" cols="12" sm="12">
+                              <v-row>
+                                <v-col cols="12" sm="12" md="12">
+                                  {{ resolution.resolution }} 
+                                </v-col>
+                                <v-col v-for="(provider,index) in resolution.urls" :key="index"  sm="6" md="1">
+                                  <v-chip variant="elevated" max-lines="1">
+                                    <a class="text-light" style="text-decoration:none" :href="`${provider.url}`" target="_blank">
+                                      {{ provider.provider }}
+                                    </a>
+                                  </v-chip>
+                                </v-col>
+                              </v-row>
+                            </v-col>
+                        </v-row>
+                        <hr style="margin-top:40px;margin-bottom:40px;">
+                      </div>
+                      <!-- <v-chip variant="elevated"
+                      size="x-large" max-lines="1">
+                            {{ index }} <br>
+                        </v-chip> -->
+                    </v-card>
+                </div>
+              </v-col>
             </v-row>
             <div style="margin-top:20px;margin-bottom:20px"></div>
             <h3 class="headline">Recommendations</h3>
