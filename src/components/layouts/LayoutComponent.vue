@@ -13,16 +13,17 @@
   
       <v-app-bar app class="primary-color text-light">
         <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-        <v-app-bar-title class="website-title">BAKAnime</v-app-bar-title>
+        <v-app-bar-title>BAKAnime</v-app-bar-title>
         <v-app-bar-title class="website-title"></v-app-bar-title>
         <v-app-bar-title class="website-title"></v-app-bar-title>
-        <v-app-bar-title class="website-title"></v-app-bar-title>
-        <v-text-field
+        <v-app-bar-title class="website-title">
+          <v-text-field
         style="margin-top: 20px;"
           v-model="search"
           label="Search"
           single-line
         ></v-text-field>
+        </v-app-bar-title>
         <v-btn icon="mdi-dots-vertical"></v-btn>
       </v-app-bar>
   
@@ -34,6 +35,22 @@
           <router-link to="/" class="text-decoration-none">
             <v-list-item class="text-light" prepend-icon="mdi-search-web" title="Cari Anime Yang Kamu Mau" value="Cari"></v-list-item>
           </router-link>
+          <v-list-group>
+              <template v-slot:activator="{ props }">
+                <v-list-item
+                  v-bind="props"
+                  title="Genres"
+                  prepend-icon="mdi-movie"
+                ></v-list-item>
+              </template>
+              <v-list-item
+                    v-for="genre in genres"
+                    :key="genre.slug"
+                    :title="genre.name"
+                    :value="genre.slug"
+                    @click="changeGenre(genre.slug)"
+              ></v-list-item>
+          </v-list-group>
         </v-list>
       </v-navigation-drawer>
   
@@ -45,15 +62,7 @@
         <v-footer
           class="secondary-color text-light"
         >
-          <div>
-            <v-btn
-              v-for="icon in icons"
-              :key="icon"
-              class="mx-4"
-              :icon="icon"
-              variant="text"
-            ></v-btn>
-          </div>
+         
 
           <div class="pt-0" style="text-align: center; padding: 40px;">
             Bakanime: Tersedia Terlengkap untuk Mengunduh Batch Anime dengan Subtitle Indonesia
@@ -74,19 +83,36 @@ Kami dengan bangga menyebut diri kami sebagai "basecamp Anime," sumber utama And
   import api from '@/api/api';
   import endpoints from '@/api/api-endpoint';
   import {useSearchStore} from '@/store/searchResult';
+  import { useGenresStore } from '@/store/genresResult';
+  import { useLayoutComponentStore } from '@/store/layoutComponent';
   import { useRouter } from 'vue-router';
+  import { storeToRefs } from 'pinia';
   
   const drawer = ref(null);
   const search = ref('');
+  const genres = ref([]);
   const searchResult = ref([]);
   const route = useRouter();
+  const genreStore = useGenresStore();
+  const {getGenres} = storeToRefs(genreStore);
+
+  const layoutComponent = useLayoutComponentStore();
+
   let currentTime = ref('');
   
   onMounted(()=> {
+    if(getGenres.value.length > 0){
+      genres.value = getGenres.value;
+    }
     setInterval(() => {
       updateJam();
     }, 1000);
-  })
+  });
+  watch(getGenres, (value) => {
+    if(value.length > 0){
+      genres.value = value;
+    }
+})
   // Membuat fungsi debounce dengan waktu penundaan 2 detik (2000 ms)
   const debouncedSearch = debounce(async () => {
     try {
@@ -102,6 +128,11 @@ Kami dengan bangga menyebut diri kami sebagai "basecamp Anime," sumber utama And
   watch(search, () => {
     debouncedSearch();
   });
+
+  const changeGenre = (slug) => {
+    layoutComponent.setGenreActive(slug);
+    drawer.value = !drawer.value;
+  }
   
   function sendSearchValue(value) {
     if(value.length > 0){

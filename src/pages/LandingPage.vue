@@ -27,7 +27,7 @@
       <v-card-text style="margin:0 !important; padding:0 !important;">
         <v-window v-model="tab" class="primary-color text-light">
           <v-window-item value="on-going">
-            <v-container>
+            <v-container style="padding:60px">
               <h1 class="font-weigh-bold" style="margin-bottom: 20px;">Ongoing Anime</h1>
               <SkeletonCard v-if="isLoading"/>
               <v-row v-else>
@@ -40,7 +40,7 @@
           </v-window-item>
 
           <v-window-item value="complete">
-            <v-container>
+            <v-container style="padding:60px">
               <h1 class="font-weigh-bold">Completed Anime</h1>
               <SkeletonCard v-if="isLoading"/>
               <v-row v-else>
@@ -53,7 +53,7 @@
           </v-window-item>
 
             <v-window-item v-for="genre in genres" :value="genre.slug" :key="genre.slug">
-              <v-container>
+              <v-container style="padding:60px">
                 <h1 class="font-weigh-bold">{{tab}}</h1>
                 <SkeletonCard v-if="isLoading"/>
                 <v-row v-else>
@@ -78,7 +78,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 import LayoutComponent from '@/components/layouts/LayoutComponent.vue';
 import MovieItemComponent from '@/components/MovieItemComponent.vue';
 import CompleteMovieItemComponent from '@/components/CompleteMovieItemComponent.vue';
@@ -88,6 +88,7 @@ import api from '@/api/api.js';
 import endpoint from '@/api/api-endpoint.js';
 import { useSearchStore } from '@/store/searchResult';
 import { useGenresStore } from '@/store/genresResult';
+import { useLayoutComponentStore } from '@/store/layoutComponent';
 import { storeToRefs } from 'pinia';
 
 const dataAnime = ref([]);
@@ -100,11 +101,12 @@ const pagination = ref({});
 const searchResult = ref([]);
 
 const searchStore = useSearchStore();
-
 const genresStore = useGenresStore();
+const layoutComponentStore = useLayoutComponentStore();
 
 const {getSearch} = storeToRefs(searchStore);
 const {getGenres} = storeToRefs(genresStore);
+const genreActive = computed(()=> layoutComponentStore.genreActive);
 
 onMounted(async () => {
   try {
@@ -140,6 +142,10 @@ watch(getSearch, (value) => {
 watch(page, (value) => {
     isLoading.value  = true;
     getData(value);
+})
+
+watch(genreActive, (value) => {
+  tab.value = value;
 })
 watch(tab, () => {
     isLoading.value  = true;
