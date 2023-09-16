@@ -88,6 +88,7 @@ import api from '@/api/api.js';
 import endpoint from '@/api/api-endpoint.js';
 import { useSearchStore } from '@/store/searchResult';
 import { useGenresStore } from '@/store/genresResult';
+import { useHead } from '@vueuse/head';
 import { useLayoutComponentStore } from '@/store/layoutComponent';
 import { storeToRefs } from 'pinia';
 
@@ -110,6 +111,10 @@ const genreActive = computed(()=> layoutComponentStore.genreActive);
 
 onMounted(async () => {
   try {
+    useHead({
+      // Can be static or computed
+      title: computed(() => "Bakanime Home"),
+    })
 
     if(getSearch.value.length > 0){
       searchResult.value = getSearch.value;

@@ -202,10 +202,7 @@
           },
           {
             property: `og:description`,
-            content: computed(() => {
-              const synopsis = movieData.value.synopsis ?? movieData.value.title;
-              return synopsis.slice(0, 60);
-            }),
+            content: computed(() => movieData.value.synopsis ?? movieData.value.title),
           },
           // {
           //   property: `og:image`,
