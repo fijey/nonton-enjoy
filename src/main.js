@@ -19,6 +19,10 @@ import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
+//head meta
+import { createHead } from '@vueuse/head'
+const head = createHead()
+
 const vuetify = createVuetify({
     components: {
         ...components,
@@ -31,6 +35,7 @@ const pinia = createPinia();
 
 const app = createApp(App);
 app.use(router);
+app.use(head);
 app.use(vuetify);
 app.use(pinia);
 app.use(Toast); // Menerapkan komponen Toast

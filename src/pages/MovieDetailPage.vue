@@ -164,12 +164,13 @@
   </template>
   
   <script setup>
-  import { ref, onMounted,watch } from 'vue';
+  import { ref, onMounted,watch,computed } from 'vue';
   import LayoutComponent from '@/components/layouts/LayoutComponent.vue';
   import MovieItemComponent from '@/components/MovieItemComponent.vue';
   import api from '@/api/api.js';
   import endpoint from '@/api/api-endpoint.js';
   import { useRoute } from 'vue-router';
+  import { useHead } from '@vueuse/head';
   
   const selectEpisode = ref('');
   const movieData = ref([]);
@@ -180,8 +181,36 @@
   
   const route = useRoute();
   const movieSlug = ref(route.params.slug);
+
   
   onMounted(async () => {
+    useHead({
+      // Can be static or computed
+      title: computed(() => movieData.value.title),
+      meta: [
+          {
+            name: `description`,
+            content: computed(() => movieData.value.title),
+          },
+          {
+            name: `keywords`,
+            content: computed(() => movieData.value.title),
+          },
+          {
+            property: `og:title`,
+            content: computed(() => 'BAKANIME - '+movieData.value.title),
+          },
+          {
+            property: `og:description`,
+            content: computed(() => movieData.value.synopsis ?? movieData.value.title),
+          },
+          {
+            property: `og:image`,
+            content: computed(() => movieData.value.poster),
+          },
+        ],
+     
+    })
     try {
       await playMovie(movieSlug.value);
       await changeEpisode(movieData.value.episode_lists[0].slug.split('/')[3]);
