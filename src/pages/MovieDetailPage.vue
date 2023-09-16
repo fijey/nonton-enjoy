@@ -198,16 +198,19 @@
           },
           {
             property: `og:title`,
-            content: computed(() => 'BAKANIME - '+movieData.value.title),
+            content: computed(() => 'BAKANIME  '+movieData.value.title),
           },
           {
             property: `og:description`,
-            content: computed(() => movieData.value.synopsis ?? movieData.value.title),
+            content: computed(() => {
+              const synopsis = movieData.value.synopsis ?? movieData.value.title;
+              return synopsis.slice(0, 60);
+            }),
           },
-          {
-            property: `og:image`,
-            content: computed(() => movieData.value.poster),
-          },
+          // {
+          //   property: `og:image`,
+          //   content: computed(() => movieData.value.poster),
+          // },
         ],
      
     })
