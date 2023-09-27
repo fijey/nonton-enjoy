@@ -17,12 +17,12 @@
   
         <!-- Movie Actions (e.g., Watch Now button) -->
         <!-- <v-card-actions>
-            <router-link :to="{ name: 'movie-detail', params: { slug: movie.slug.split('/')[3] } }">
+            <router-link :to="{ name: 'movie-detail', params: { slug: movie.slug } }">
                 <v-btn block class="secondary-color text-light" style="width: 100%;">Watch Now</v-btn>
             </router-link>
 
         </v-card-actions> -->
-        <router-link style="text-decoration:none" :to="{ name: 'movie-detail', params: { slug: movie.slug.split('/')[3] } }">
+        <router-link style="text-decoration:none" :to="{ name: 'movie-detail', params: { slug: movie.slug } }">
             <v-btn class="secondary-color text-light" block>Watch Now</v-btn>
         </router-link>
       </v-card>

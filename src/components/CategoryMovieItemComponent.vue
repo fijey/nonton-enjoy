@@ -31,7 +31,7 @@
     </v-card-text>
 
     <!-- Movie Actions (e.g., Watch Now button) -->
-    <router-link v-if="movie.slug" :to="{ name: 'movie-detail', params: { slug: movie.slug.split('/')[3] } }">
+    <router-link v-if="movie.slug" :to="{ name: 'movie-detail', params: { slug: movie.slug } }">
       <v-btn class="secondary-color text-light" style="position: absolute; bottom: 0;" block>Watch Now</v-btn>
     </router-link>
   </v-card>

@@ -213,7 +213,7 @@
     })
     try {
       await playMovie(movieSlug.value);
-      await changeEpisode(movieData.value.episode_lists[0].slug.split('/')[3]);
+      await changeEpisode(movieData.value.episode_lists[0].slug);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -231,7 +231,7 @@
 
 const changeSlug = (value) => {
   isLoading.value = true;
-  movieSlug.value = value.split('/')[3];
+  movieSlug.value = value;
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -240,7 +240,7 @@ const changeSlug = (value) => {
       const response = await api.get(endpoint.getDetail() + '/' + value);
       isLoading.value = false;
       movieData.value= response.data.data;
-      episode_lists.value = movieData.value.episode_lists.map((episode) => episode.slug.split('/')[3]);
+      episode_lists.value = movieData.value.episode_lists.map((episode) => episode.slug);
       
     } catch (error) {
       console.error('Error fetching data:', error);
