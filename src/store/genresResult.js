@@ -3,16 +3,20 @@ import { defineStore } from 'pinia'
 export const useGenresStore = defineStore({
     id: 'genresStore',
     state: () => ({
-        data: [], // Ini akan menjadi objek kosong awalnya
+        defaultGenres: ['popular','recent-release','top-rated'],
+        genres: []
     }),
     getters: {
-        getGenres() {
-            return this.data
-        }
+        getDefaultGenres() {
+            return this.defaultGenres;
+        },
+        getGenres(){
+            return this.genres;
+        },
     },
     actions: {
         setGenres(data) {
-            this.data = data // Ini akan mengganti data dengan data yang diberikan
+            this.genres = data // Ini akan mengganti data dengan data yang diberikan
         }
     }
 })

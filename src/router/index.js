@@ -7,7 +7,7 @@ import MovieDetailPage from "@/pages/MovieDetailPage.vue";
 
 const routes = [
   { path: '/', component: LandingPage,name: 'landingpage' },
-  { path: '/detail/:slug', component: MovieDetailPage,name: 'movie-detail' },
+  { path: '/detail/:type/:slug', component: MovieDetailPage,name: 'detail' },
   { path: '/search', component: SearchPage,name: 'search' },
   { path: '/register', component: RegisterPage,name: 'register' },
   // Tambahkan rute-rute lain di sini

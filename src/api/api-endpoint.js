@@ -5,17 +5,24 @@ const endpoints = {
     getHome: () => {
         return 'home';
     },
-    getDetail: () => {
-        return 'anime';
+    getDetail: (type,_id) => {
+        if (type == "movie") type = 'movies';
+        return `/${type}/${_id}`;
     },
     getEpisodeBySlug: () => {
         return 'episode';
     },
-    getSearch: () => {
-        return'search';
+    getSearch: (title) => {
+        return `search/${title}`;
     },
-    getOngoing: () => {
-        return'ongoing-anime';
+    getMovieByGenre: (genre) => {
+        return `genres/${genre}`;
+    },
+    getMovieByDefaultGenre: (genre) => {
+        return `${genre}/movies`;
+    },
+    getSeriesByDefaultGenre: (genre) => {
+        return `${genre}/series`;
     },
     getComplete: () => {
         return'complete-anime';

@@ -13,16 +13,11 @@
   
       <v-app-bar app class="primary-color text-light">
         <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-        <v-app-bar-title>BAKAnime</v-app-bar-title>
+        <v-app-bar-title>kamu mau nonton ?</v-app-bar-title>
         <v-app-bar-title class="website-title"></v-app-bar-title>
         <v-app-bar-title class="website-title"></v-app-bar-title>
         <v-app-bar-title class="website-title">
-          <v-text-field
-        style="margin-top: 20px;"
-          v-model="search"
-          label="Search"
-          single-line
-        ></v-text-field>
+          
         </v-app-bar-title>
         <v-btn icon="mdi-dots-vertical"></v-btn>
       </v-app-bar>
@@ -33,7 +28,7 @@
             <v-list-item class="text-light" prepend-icon="mdi-compass" title="Home" value="Home"></v-list-item>
           </router-link>
           <router-link to="/search" class="text-decoration-none">
-            <v-list-item class="text-light" prepend-icon="mdi-search-web" title="Cari Anime Yang Kamu Mau" value="Cari"></v-list-item>
+            <v-list-item class="text-light" prepend-icon="mdi-search-web" title="Cari Movies / Series" value="Cari"></v-list-item>
           </router-link>
           <v-list-group>
               <template v-slot:activator="{ props }">

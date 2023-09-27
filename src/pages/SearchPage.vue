@@ -47,8 +47,8 @@
 
       const debouncedSearch = debounce(async () => {
     try {
-        const response = await api.get(endpoints.getSearch() + '/' + search.value);
-        searchResults.value = response.data.data;
+        const response = await api.get(endpoints.getSearch(search.value));
+        searchResults.value = response.data;
         isLoading.value = false;
     } catch (error) {
         isLoading.value = false;
