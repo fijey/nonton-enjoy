@@ -135,7 +135,7 @@
                   <h3>Season {{ seasons_choose }} Episode {{ episodes_choose }}</h3>
                   <v-container v-for="movie in moviePlay" :key="movie.provider">
                     <a :href="movie.url" target="_blank" style="text-decoration:none">
-                      <v-chip role="button" x-size="large" class="secondary-color text-light">
+                      <v-chip role="button" x-size="large" class="secondary-color text-light" style="cursor: pointer;">
                         {{ movie.provider }} <br>
                       </v-chip>
                     </a><br>

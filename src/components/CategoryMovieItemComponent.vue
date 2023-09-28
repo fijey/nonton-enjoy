@@ -69,7 +69,10 @@ import {  defineProps } from 'vue';
 function getType(movie) {
   if (movie.title.includes("Series")) {
     return "series";
-  } else {
+  } else if (movie.type == "series"){
+    return movie.type;
+  } 
+  else {
     return "movies";
   }
 }
