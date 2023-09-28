@@ -3,7 +3,7 @@
       <v-system-bar class="secondary-color text-light">
         <v-row>
           <v-col class="website-title" style="text-align: left;">
-            <span class="ms-2">BAKAnime - Streaming & Download Free Anime Subtitle Indonesia</span>
+            <span class="ms-2">Dapur Film - Streaming & Download Free Movie And Series Subtitle Indonesia</span>
           </v-col>
           <v-col>
               <span class="ms-2">{{ currentTime }}</span>
@@ -13,7 +13,7 @@
   
       <v-app-bar app class="primary-color text-light">
         <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-        <v-app-bar-title>kamu mau nonton ?</v-app-bar-title>
+        <v-app-bar-title>Dapur Film</v-app-bar-title>
         <v-app-bar-title class="website-title"></v-app-bar-title>
         <v-app-bar-title class="website-title"></v-app-bar-title>
         <v-app-bar-title class="website-title">
@@ -58,14 +58,14 @@
           class="secondary-color text-light"
         >
          
-
-          <div class="pt-0" style="text-align: center; padding: 40px;">
-            Bakanime: Tersedia Terlengkap untuk Mengunduh Batch Anime dengan Subtitle Indonesia
-
-Selamat datang di Bakanime, tempat utama untuk mengunduh batch anime dengan subtitle Indonesia. Kami bertekad menjadi pusat database anime yang beragam. Dengan koleksi yang mencakup tahun 1979 hingga 2022, kami menawarkan lebih dari 3.000 judul anime yang dapat Anda unduh melalui platform seperti Google Drive, Mega.nz, dan lainnya.
-
-Kami dengan bangga menyebut diri kami sebagai "basecamp Anime," sumber utama Anda untuk semua hal terkait anime. Jelajahi dunia animasi Jepang dengan Bakanime dan nikmati akses mudah ke serial favorit Anda.
-          </div>
+          <v-row>
+            <v-col lg="12">
+              <div class="pt-0" style="text-align: center; padding: 40px;">
+                DAPUR FILM <br>
+                Menyediakan Apa yang kamu cari, search aja nanti kami masakin
+              </div>
+            </v-col>
+          </v-row>
 
         </v-footer>
 
